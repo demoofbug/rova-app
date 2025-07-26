@@ -1,0 +1,41 @@
+name: Flutter Build
+description: Checkout, setup flutter, pub get, and run flutter build
+inputs:
+  repo:
+    required: true
+    description: 'Repository to checkout'
+  token:
+    required: true
+    description: 'GitHub token'
+  path:
+    required: true
+    description: 'Checkout and working directory'
+  build-cmd:
+    required: true
+    description: 'Flutter build command (e.g. "flutter build windows --verbose")'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout rova repo
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.repo }}
+        token: ${{ inputs.token }}
+        path: ${{ inputs.path }}
+        submodules: true
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+        cache: true
+
+    - name: Flutter pub get
+      working-directory: ${{ inputs.path }}
+      run: flutter pub 
+      shell: bash
+
+    - name: Flutter Build
+      working-directory: ${{ inputs.path }}
+      run: ${{ inputs.build-cmd }}
+      shell: bash

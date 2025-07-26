@@ -1,0 +1,39 @@
+name: Artifact Upload and Release
+description: Upload artifact and create GitHub release
+inputs:
+  artifact-name:
+    required: true
+    description: 'Artifact name'
+  artifact-path:
+    required: true
+    description: 'Artifact path'
+  repo:
+    required: true
+    description: 'Release repo'
+  token:
+    required: true
+    description: 'GitHub token'
+  tag:
+    required: true
+    description: 'Release tag'
+  files:
+    required: true
+    description: 'Files to include in release'
+runs:
+  using: "composite"
+  steps:
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.artifact-path }}
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        repository: ${{ inputs.repo }}
+        token: ${{ inputs.token }}
+        draft: false
+        prerelease: false
+        tag_name: ${{ inputs.tag }}
+        files: ${{ inputs.files }}

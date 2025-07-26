@@ -1,0 +1,182 @@
+name: Build Rova from rova repo
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+env:
+  ARTIFACT_REPO: demoofbug/rova-app
+  SOURCE_REPO: demoofbug/rova
+
+jobs:
+  get-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.get_tag.outputs.tag }}
+    steps:
+      - name: Checkout rova-app repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          TAG=$(git describe --tags --abbrev=0)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+  windows:
+    name: Windows Build
+    runs-on: windows-latest
+    needs: get-tag
+    env:
+      WIN_ZIP: rova_win32_x64.7z
+      WIN_BUILD_DIR: build/windows/x64/runner/Release
+    steps:
+      - name: Checkout rova-app (workflow repo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: ./.github/actions/flutter-build
+        with:
+          repo: ${{ env.SOURCE_REPO }}
+          token: ${{ secrets.GH_TOKEN }}
+          path: rova
+          build-cmd: flutter build windows --verbose
+
+      - name: Package Windows build
+        working-directory: rova/${{ env.WIN_BUILD_DIR }}
+        run: cmake -E tar "cfv" "${{ github.workspace }}/${{ env.WIN_ZIP }}" --format=7zip .
+
+      - uses: ./.github/actions/artifact-upload-release
+        with:
+          artifact-name: ${{ env.WIN_ZIP }}
+          artifact-path: ${{ env.WIN_ZIP }}
+          repo: ${{ env.ARTIFACT_REPO }}
+          token: ${{ secrets.GH_TOKEN }}
+          tag: ${{ needs.get-tag.outputs.tag }}
+          files: ${{ env.WIN_ZIP }}
+          append: true
+
+  macos:
+    name: macOS Build
+    runs-on: macos-latest
+    needs: get-tag
+    env:
+      MAC_ZIP: rova_macos_universal.7z
+      MAC_BUILD_DIR: build/macos/Build/Products/Release
+    steps:
+      - name: Checkout rova-app (workflow repo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1    
+
+      - uses: ./.github/actions/flutter-build
+        with:
+          repo: ${{ env.SOURCE_REPO }}
+          token: ${{ secrets.GH_TOKEN }}
+          path: rova
+          build-cmd: flutter build macos --verbose
+
+      - name: Package macOS build
+        working-directory: rova/${{ env.MAC_BUILD_DIR }}
+        run: 7z a ${{ env.MAC_ZIP }} 嗅影.app
+
+      - uses: ./.github/actions/artifact-upload-release
+        with:
+          artifact-name: ${{ env.MAC_ZIP }}
+          artifact-path: rova/${{ env.MAC_BUILD_DIR }}/${{ env.MAC_ZIP }}
+          repo: ${{ env.ARTIFACT_REPO }}
+          token: ${{ secrets.GH_TOKEN }}
+          tag: ${{ needs.get-tag.outputs.tag }}
+          files: rova/${{ env.MAC_BUILD_DIR }}/${{ env.MAC_ZIP }}
+          append: true
+
+  ios:
+    name: iOS Build
+    runs-on: macos-latest
+    needs: get-tag
+    env:
+      IOS_IPA: rova_ios_arm64.ipa
+      IOS_BUILD_DIR: build/ios/iphoneos
+    steps:
+      - name: Checkout rova-app (workflow repo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: ./.github/actions/flutter-build
+        with:
+          repo: ${{ env.SOURCE_REPO }}
+          token: ${{ secrets.GH_TOKEN }}
+          path: rova
+          build-cmd: flutter build ios --verbose --no-codesign
+
+      - name: Package IPA
+        working-directory: rova/${{ env.IOS_BUILD_DIR }}
+        run: zip -r ${{ env.IOS_IPA }} Runner.app
+
+      - uses: ./.github/actions/artifact-upload-release
+        with:
+          artifact-name: ${{ env.IOS_IPA }}
+          artifact-path: rova/${{ env.IOS_BUILD_DIR }}/${{ env.IOS_IPA }}
+          repo: ${{ env.ARTIFACT_REPO }}
+          token: ${{ secrets.GH_TOKEN }}
+          tag: ${{ needs.get-tag.outputs.tag }}
+          files: rova/${{ env.IOS_BUILD_DIR }}/${{ env.IOS_IPA }}
+          append: true
+
+  android:
+    name: Android Build
+    runs-on: ubuntu-latest
+    needs: get-tag
+    env:
+      ANDROID_APK_ARMV7: rova_android-armeabi-v7a.apk
+      ANDROID_APK_ARM64: rova_android-arm64-v8a.apk
+      ANDROID_APK_X64: rova_android-x86_64.apk
+      ANDROID_APK_DIR: build/app/outputs/flutter-apk
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Checkout rova-app (workflow repo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: ./.github/actions/flutter-build
+        with:
+          repo: ${{ env.SOURCE_REPO }}
+          token: ${{ secrets.GH_TOKEN }}
+          path: rova
+          build-cmd: flutter build apk --split-per-abi --verbose
+
+      - name: Rename APKs
+        working-directory: rova
+        run: |
+          mv ${{ env.ANDROID_APK_DIR }}/app-armeabi-v7a-release.apk ${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_ARMV7 }}
+          mv ${{ env.ANDROID_APK_DIR }}/app-arm64-v8a-release.apk ${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_ARM64 }}
+          mv ${{ env.ANDROID_APK_DIR }}/app-x86_64-release.apk ${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_X64 }}
+
+      - uses: ./.github/actions/artifact-upload-release
+        with:
+          artifact-name: android-apks
+          artifact-path: |
+            rova/${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_ARMV7 }}
+            rova/${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_ARM64 }}
+            rova/${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_X64 }}
+          repo: ${{ env.ARTIFACT_REPO }}
+          token: ${{ secrets.GH_TOKEN }}
+          tag: ${{ needs.get-tag.outputs.tag }}
+          files: |
+            rova/${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_ARMV7 }}
+            rova/${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_ARM64 }}
+            rova/${{ env.ANDROID_APK_DIR }}/${{ env.ANDROID_APK_X64 }}
+          append: true
