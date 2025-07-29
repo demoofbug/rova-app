@@ -1,10 +1,9 @@
 <div align="center">
-    <img width="100" height="100" src="logo.webp" style="border-radius: 50%;">
+    <img width="100" height="100" src="logo.webp">
 </div>
 
 ![version](https://img.shields.io/badge/version-1.0.1-blue.svg?style=for-the-badge)
 [![Build](https://img.shields.io/github/actions/workflow/status/demoofbug/rova-app/ci.yml?ref=v1.0.0&style=for-the-badge)](https://github.com/demoofbug/rova-app/actions)
-
 [![Download](https://img.shields.io/badge/Download-Release-brightgreen?logo=github&style=for-the-badge)](https://github.com/demoofbug/rova-app/releases)
 ![GitHub all releases](https://img.shields.io/github/downloads/demoofbug/rova-app/total?style=for-the-badge) 
 
