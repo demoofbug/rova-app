@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}嗅影 - 智能影视嗅探播放器{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+    {% block extra_css %}{{ extra_css | safe }}{% endblock %}
+</head>
+<body id="{% block body_id %}{% endblock %}">
+    <div class="grid-lines"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        {% include "components/header.njk" %}
+        
+        <main>
+            {{ content | safe }}
+        </main>
+        
+        {% include "components/footer.njk" %}
+    </div>
+    
+    <script src="/public/js/main.js"></script>
+    {% block extra_js %}{{ extra_js | safe }}{% endblock %}
+</body>
+</html>

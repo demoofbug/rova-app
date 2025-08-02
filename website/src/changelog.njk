@@ -1,0 +1,39 @@
+---
+layout: base.njk
+title: 更新日志 - 嗅影播放器
+extra_css: <link rel="stylesheet" href="/public/css/changelog.css">
+---
+
+<section class="page-header">
+    <h1>更新日志</h1>
+    <p>跟踪嗅影播放器的最新版本、功能更新和错误修复。</p>
+</section>
+
+<section class="changelog-timeline">
+    {% for entry in changelog | reverse %}
+    <details class="timeline-item" {% if loop.first %}open{% endif %}>
+        <summary class="timeline-summary">
+            <div class="timeline-dot"></div>
+            <div class="timeline-title">
+                <h2 class="version">版本 {{ entry.version }}</h2>
+                <time class="date">{{ entry.date }}</time>
+            </div>
+        </summary>
+        <div class="timeline-content">
+            <ul class="changes">
+                {% for change in entry.changes %}
+                {% if change.startsWith('【新增】') %}
+                <li data-type="新增">{{ change.replace('【新增】', '') }}</li>
+                {% elif change.startsWith('【优化】') %}
+                <li data-type="优化">{{ change.replace('【优化】', '') }}</li>
+                {% elif change.startsWith('【修复】') %}
+                <li data-type="修复">{{ change.replace('【修复】', '') }}</li>
+                {% else %}
+                <li>{{ change }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </details>
+    {% endfor %}
+</section>

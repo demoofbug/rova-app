@@ -1,0 +1,135 @@
+/* Changelog Page Styles */
+.page-header {
+    text-align: center;
+    padding: 80px 0 60px;
+    background: rgba(10, 10, 18, 0.5);
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.page-header p {
+    font-size: 1.2rem;
+    color: rgba(224, 224, 224, 0.8);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.changelog-timeline {
+    max-width: 800px;
+    margin: 60px auto;
+    position: relative;
+    padding: 0 20px;
+}
+
+.changelog-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(0, 204, 136, 0.2);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px; /* Adjust spacing */
+}
+
+.timeline-summary {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 0;
+    list-style: none; /* Remove default marker */
+}
+
+.timeline-summary::-webkit-details-marker {
+    display: none; /* Hide the default arrow in Chrome/Safari */
+}
+
+.timeline-summary:hover .version {
+    color: var(--primary);
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 11px;
+    top: 22px;
+    width: 18px;
+    height: 18px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 4px solid var(--dark);
+    z-index: 1;
+}
+
+.timeline-title {
+    padding-left: 50px;
+}
+
+.version {
+    font-size: 1.25rem; /* Slightly smaller */
+    color: var(--light);
+    margin: 0;
+    transition: color 0.3s;
+}
+
+.date {
+    font-size: 0.9rem;
+    color: rgba(224, 224, 224, 0.6);
+}
+
+.timeline-content {
+    padding-left: 50px;
+    padding-bottom: 20px;
+    overflow: hidden;
+}
+
+.changes {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.changes li {
+    position: relative;
+    padding: 10px 0 10px 85px; /* Adjust padding for the tag */
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.changes li::before {
+    content: attr(data-type);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* Tag Colors */
+.changes li[data-type="新增"]::before {
+    background-color: #28a745; /* Green */
+}
+
+.changes li[data-type="优化"]::before {
+    background-color: #007bff; /* Blue */
+}
+
+.changes li[data-type="修复"]::before {
+    background-color: #fd7e14; /* Orange */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

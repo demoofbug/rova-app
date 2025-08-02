@@ -1,0 +1,21 @@
+---
+layout: base.njk
+title: 常见问题 - 嗅影播放器
+extra_css: <link rel="stylesheet" href="/public/css/faq.css">
+---
+
+<section class="page-header">
+    <h1>常见问题 (FAQ)</h1>
+    <p>在这里找到您关于嗅影播放器最常见问题的答案。</p>
+</section>
+
+<section class="faq-container">
+    {% for item in faq %}
+    <details class="faq-item">
+        <summary class="faq-question">{{ item.question }}</summary>
+        <div class="faq-answer">
+            <p>{{ item.answer | safe }}</p>
+        </div>
+    </details>
+    {% endfor %}
+</section>

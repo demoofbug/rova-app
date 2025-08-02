@@ -11,6 +11,7 @@ permissions:
 env:
   ARTIFACT_REPO: demoofbug/rova-app
   SOURCE_REPO: demoofbug/rova
+  CI: "true"
 
 jobs:
   get-tag:
@@ -118,7 +119,10 @@ jobs:
 
       - name: Package IPA
         working-directory: rova/${{ env.IOS_BUILD_DIR }}
-        run: zip -r ${{ env.IOS_IPA }} Runner.app
+        run: |
+          mkdir Payload 
+          mv Runner.app Payload/
+          zip -r ${{ env.IOS_IPA }} Payload
 
       - uses: ./.github/actions/artifact-upload-release
         with:
@@ -139,6 +143,10 @@ jobs:
       ANDROID_APK_ARM64: rova_android-arm64-v8a.apk
       ANDROID_APK_X64: rova_android-x86_64.apk
       ANDROID_APK_DIR: build/app/outputs/flutter-apk
+      ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
     steps:
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -156,7 +164,7 @@ jobs:
           repo: ${{ env.SOURCE_REPO }}
           token: ${{ secrets.GH_TOKEN }}
           path: rova
-          build-cmd: flutter build apk --split-per-abi --verbose
+          build-cmd: flutter build apk --release --split-per-abi --verbose
 
       - name: Rename APKs
         working-directory: rova

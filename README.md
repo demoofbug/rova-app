@@ -1,11 +1,22 @@
 <div align="center">
-    <img width="100" height="100" src="logo.webp">
+    <img width="100" height="100" src="./website/public/images/logo.webp">
+</div>
+<div align="center">
+    <a href="http://demoofbug.github.io/rova-app/" target="_blank">官网</a>
+    <a href="http://demoofbug.github.io/rova-app/faq" target="_blank">常见问题</a>
+    <a href="https://github.com/demoofbug/rova-app/issues" target="_blank">反馈</a>
+    <a href="https://github.com/demoofbug/rova-app/releases" target="_blank">下载</a>
 </div>
 
-![version](https://img.shields.io/badge/version-1.0.1-blue.svg?style=for-the-badge)
+<div align="center">
+
+![version](https://img.shields.io/badge/version-1.1.0-blue.svg?style=for-the-badge)
 [![Build](https://img.shields.io/github/actions/workflow/status/demoofbug/rova-app/ci.yml?ref=v1.0.0&style=for-the-badge)](https://github.com/demoofbug/rova-app/actions)
 [![Download](https://img.shields.io/badge/Download-Release-brightgreen?logo=github&style=for-the-badge)](https://github.com/demoofbug/rova-app/releases)
-![GitHub all releases](https://img.shields.io/github/downloads/demoofbug/rova-app/total?style=for-the-badge) 
+![GitHub all releases](https://img.shields.io/github/downloads/demoofbug/rova-app/total?style=for-the-badge)
+
+</div>
+
 
 <div align="center">
     <h1>嗅影</h1>
@@ -15,33 +26,33 @@
 
 ---
 
-# 预览
+## 预览
 ### 移动端
 
 <div align="center">
-<img src="./screenshorts/app/1.webp" width="32%" alt="home" />
-<img src="./screenshorts/app/2.webp" width="32%" alt="home" />
-<img src="./screenshorts/app/3.webp" width="32%" alt="home" />
+<img src="./website/public/images/screenshorts/app/1.webp" width="32%" alt="home" />
+<img src="./website/public/images/screenshorts/app/2.webp" width="32%" alt="home" />
+<img src="./website/public/images/screenshorts/app/3.webp" width="32%" alt="home" />
 <br/>
-<img src="./screenshorts/app/4.webp" width="97%" alt="home" />
+<img src="./website/public/images/screenshorts/app/4.webp" width="97%" alt="home" />
 <br/>
-<img src="./screenshorts/app/5.webp" width="97%" alt="home" />
+<img src="./website/public/images/screenshorts/app/5.webp" width="97%" alt="home" />
 <br/>
-<img src="./screenshorts/app/6.webp" width="97%" alt="home" />
+<img src="./website/public/images/screenshorts/app/6.webp" width="97%" alt="home" />
 <br/>
 </div>
 
 ### PC 端
 <div align="center">
-<img src="./screenshorts/desktop/1.webp" width="97%" alt="home" />
+<img src="./website/public/images/screenshorts/desktop/1.webp" width="97%" alt="home" />
 <br/>
-<img src="./screenshorts/desktop/3.webp" width="97%" alt="home" />
+<img src="./website/public/images/screenshorts/desktop/3.webp" width="97%" alt="home" />
 <br/>
-<img src="./screenshorts/desktop/4.webp" width="97%" alt="home" />
+<img src="./website/public/images/screenshorts/desktop/4.webp" width="97%" alt="home" />
 <br/>
-<img src="./screenshorts/desktop/5.webp" width="97%" alt="home" />
+<img src="./website/public/images/screenshorts/desktop/5.webp" width="97%" alt="home" />
 <br/>
-<img src="./screenshorts/desktop/6.webp" width="97%" alt="home" />
+<img src="./website/public/images/screenshorts/desktop/6.webp" width="97%" alt="home" />
 <br/>
 </div>
 
@@ -71,7 +82,7 @@
 
 ---
 
-## 📱 平台支持
+### 📱 平台支持
 
 * **iOS**：支持安装，但需要用户自签名应用。
 * **Android**：完整支持。

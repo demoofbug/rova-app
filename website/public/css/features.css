@@ -1,0 +1,147 @@
+/* Scroll-Story Section */
+#scroll-story {
+    position: relative;
+    padding: 100px 0;
+}
+
+#scroll-story h2 {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 80px;
+    background: linear-gradient(to right, var(--light), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.story-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3fr 2fr; /* 60% for visuals, 40% for text */
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.story-visuals-panel {
+    position: sticky;
+    top: 120px;
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-text-panel {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+}
+
+.story-step {
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0.4;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.story-step.active {
+    opacity: 1;
+}
+
+.story-step h3 {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.story-step p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(224, 224, 224, 0.8);
+    max-width: 450px;
+}
+
+/* Device Mockups for Story */
+.device-mockup {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    pointer-events: none;
+}
+
+.device-mockup.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+}
+
+.desktop-mockup {
+    width: 100%;
+    max-width: 650px;
+    padding: 20px;
+    background: #1a1a2e;
+    border-radius: 15px;
+    border: 2px solid #333;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+.desktop-mockup img {
+    width: 100%;
+    border-radius: 5px;
+    display: block;
+}
+
+.phone-mockup {
+    width: 280px; /* Increased size */
+    height: 580px; /* Increased size */
+    padding: 15px;
+    background: #111;
+    border-radius: 30px;
+    border: 2px solid #444;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+.phone-mockup .screen {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center top;
+    border-radius: 20px;
+    transition: background-position 3s ease-out; /* Slower transition for scrolling effect */
+}
+
+.phone-mockup .screen.scrolling {
+    background-position: center bottom;
+}
+
+.tablet-mockup {
+    width: 500px; /* Increased size */
+    padding: 15px;
+    background: #111;
+    border-radius: 20px;
+    border: 2px solid #444;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+.tablet-mockup img {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+}
+
+@media (max-width: 992px) {
+    .story-container {
+        grid-template-columns: 1fr;
+    }
+    .story-visuals-panel {
+        height: 50vh;
+        top: 100px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .story-step {
+        min-height: 55vh;
+        padding: 0 20px;
+        align-items: center;
+        text-align: center;
+    }
+}
