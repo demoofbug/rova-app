@@ -2,8 +2,8 @@
 layout: base.njk
 title: 嗅影 - 智能影视嗅探播放器
 body_id: home-page
-extra_css: <link rel="stylesheet" href="/public/css/index.css">
-extra_js: <script src="/public/js/index.js"></script>
+extra_css_path: /public/css/index.css
+extra_js_path: /public/js/index.js
 ---
 
 <section class="hero">
@@ -102,7 +102,7 @@ extra_js: <script src="/public/js/index.js"></script>
 <section class="cta-section">
     <h2>想亲眼看看它是如何工作的吗？</h2>
     <p>访问功能导览页面，以滚动方式逐步体验嗅影播放器的功能与操作细节。</p>
-    <a href="/features" class="cta-btn secondary-btn">
+    <a href="{{ '/features' | url }}" class="cta-btn secondary-btn">
        探索功能导览
                 <i class="fas fa-arrow-right"></i>
     </a>

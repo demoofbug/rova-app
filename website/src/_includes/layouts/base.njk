@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}嗅影 - 智能影视嗅探播放器{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/public/css/main.css">
-    {% block extra_css %}{{ extra_css | safe }}{% endblock %}
+    <link rel="stylesheet" href="{{ '/public/css/main.css' | url }}">
+    {% if extra_css_path %}
+    <link rel="stylesheet" href="{{ extra_css_path | url }}">
+    {% endif %}
+    {% block extra_css %}{% endblock %}
 </head>
 <body id="{% block body_id %}{% endblock %}">
     <div class="grid-lines"></div>
@@ -22,7 +25,10 @@
         {% include "components/footer.njk" %}
     </div>
     
-    <script src="/public/js/main.js"></script>
-    {% block extra_js %}{{ extra_js | safe }}{% endblock %}
+    <script src="{{ '/public/js/main.js' | url }}"></script>
+    {% if extra_js_path %}
+    <script src="{{ extra_js_path | url }}"></script>
+    {% endif %}
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

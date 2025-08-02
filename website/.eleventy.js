@@ -104,6 +104,7 @@ module.exports = function(eleventyConfig) {
   });
 
   return {
+    pathPrefix: "/rova-app/",
     dir: {
       input: "src",
       output: "dist",
